@@ -37,3 +37,5 @@ Team Members, check in below:
 VAMSI WOZ HERE!!! MUAHAHAHA!!!! I promise to behave this time.
 
 Developing for Android on NetBeans: http://wiki.netbeans.org/IntroAndroidDevNetBeans
+
+Brad was here.

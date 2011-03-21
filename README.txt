@@ -23,6 +23,7 @@ In the future, all you need to do to get all changes is:
 
 	cd Class-Project/
 	git fetch upstream
+	git pull
 
 And all you need to do to push your changes is:
 

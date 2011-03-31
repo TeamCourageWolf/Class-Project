@@ -38,5 +38,6 @@ Team Members, check in below:
 VAMSI WOZ HERE!!! MUAHAHAHA!!!! I promise to behave this time.
 
 Developing for Android on NetBeans: http://wiki.netbeans.org/IntroAndroidDevNetBeans
+Integrating Facebook with a Mobile App: http://developers.facebook.com/docs/guides/mobile/#android
 
 Brad was here.

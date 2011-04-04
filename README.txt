@@ -41,3 +41,5 @@ Developing for Android on NetBeans: http://wiki.netbeans.org/IntroAndroidDevNetB
 Integrating Facebook with a Mobile App: http://developers.facebook.com/docs/guides/mobile/#android
 
 Brad was here.
+
+Jen was here.

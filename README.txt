@@ -33,12 +33,11 @@ And all you need to do to push your changes is:
 
 -John
 
+Developing for Android is a pain. I put some of the information that might help in Dev_Notes.txt
+
 Team Members, check in below:
 
 VAMSI WOZ HERE!!! MUAHAHAHA!!!! I promise to behave this time.
-
-Developing for Android on NetBeans: http://wiki.netbeans.org/IntroAndroidDevNetBeans
-Integrating Facebook with a Mobile App: http://developers.facebook.com/docs/guides/mobile/#android
 
 Brad was here.
 

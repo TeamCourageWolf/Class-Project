@@ -1,0 +1,8 @@
+Integrating Facebook with a Mobile App: http://developers.facebook.com/docs/guides/mobile/#android
+
+Some info and Links to help some of the steps:
+
+- Make sure NOT to install the Android SDK in the default location (in Program Files). Make sure to install it in C:\ or something.
+- Instructions to install Facebook app to a Virtual Device. (http://www.mobisoftinfotech.com/blog/android/installing-apk-files-on-android-device-emulator/)
+- Set path to point to the tools and platform-tools locations. (Ex. C:\android-sdk\tools and C:\android-sdk\platform-tools\)
+- You can get OpenSSL for windows from (http://code.google.com/p/openssl-for-windows/). Again set path to point to the bin subfolder to this directory

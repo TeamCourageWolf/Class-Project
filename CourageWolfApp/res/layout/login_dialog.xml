@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical" android:layout_width="fill_parent"
+	android:layout_height="fill_parent" android:paddingLeft="10dip"
+	android:paddingRight="10dip">
+	<TextView android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:text="User-ID" />
+	<EditText android:id="@+id/login_uname" android:layout_width="250dip"
+		android:layout_height="wrap_content" />
+	<TextView android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:text="Password" />
+	<EditText android:id="@+id/login_passwd" android:layout_width="250dip"
+		android:layout_height="wrap_content" android:password="true" />
+	<LinearLayout android:orientation="horizontal"
+		android:layout_width="fill_parent" android:layout_height="fill_parent"
+		android:paddingTop="15dip">
+		<Button android:id="@+id/login_ok_button" android:layout_width="80dip"
+			android:layout_height="fill_parent" android:text="Login" />
+		<Button android:id="@+id/login_cancel_button"
+			android:layout_width="80dip" android:layout_height="fill_parent"
+			android:text="Cancel" />
+	</LinearLayout>
+</LinearLayout>

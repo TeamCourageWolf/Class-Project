@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Courage Wolf App</string>
+    <string name="login_string">Login Here!</string>
+    <string name="plan_string">Plan Activity</string>
+    <string name="admin_string">Administration</string>
+    <string name="exit_string">Quit</string>
+    <string name="social_string">Post to Wall</string>
+</resources>

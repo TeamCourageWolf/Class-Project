@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical" android:layout_width="fill_parent"
+	android:layout_height="fill_parent" android:paddingLeft="10dip"
+	android:paddingRight="10dip">
+	<Button android:layout_height="wrap_content"
+		android:layout_width="match_parent" android:id="@+id/admin_done_button"
+		android:text="Done" />
+	<TextView android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:text="New User-ID" />
+	<EditText android:id="@+id/new_uname" android:layout_width="250dip"
+		android:layout_height="wrap_content" />
+	<TextView android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:text="New Password" />
+	<EditText android:id="@+id/new_passwd" android:layout_width="250dip"
+		android:layout_height="wrap_content" />
+	<Button android:layout_height="wrap_content"
+		android:layout_width="match_parent" android:id="@+id/admin_new_usr_button"
+		android:text="Create New User" />
+	<Button android:layout_height="wrap_content"
+		android:layout_width="match_parent" android:id="@+id/admin_reset_button"
+		android:text="Reset Database" />
+</LinearLayout>

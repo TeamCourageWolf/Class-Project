@@ -5,24 +5,24 @@
 	<Button android:layout_width="wrap_content"
 		android:layout_height="wrap_content" android:background="@drawable/btn_up"
 		android:id="@+id/login_button" android:text="@string/login_string"
-		android:textColor="@color/red_text" android:textStyle="bold"
+		android:textColor="@color/white_text" android:textStyle="bold"
 		android:layout_weight="1" />
 	<Button android:layout_width="wrap_content"
 		android:layout_height="wrap_content" android:background="@drawable/btn_dwn"
-		android:text="@string/plan_string" android:textColor="@color/red_text"
+		android:text="@string/plan_string" android:textColor="@color/white_text"
 		android:textStyle="bold" android:layout_weight="1" android:id="@+id/plan_button" />
 	<Button android:layout_width="wrap_content"
-		android:layout_height="wrap_content" android:textColor="@color/red_text"
+		android:layout_height="wrap_content" android:textColor="@color/white_text"
 		android:background="@drawable/btn_up" android:layout_weight="1"
 		android:text="@string/admin_string" android:textStyle="bold"
 		android:id="@+id/admin_button" />
 	<Button android:layout_width="wrap_content"
-		android:layout_height="wrap_content" android:textColor="@color/red_text"
+		android:layout_height="wrap_content" android:textColor="@color/white_text"
 		android:background="@drawable/btn_dwn" android:layout_weight="1"
 		android:text="@string/social_string" android:textStyle="bold"
 		android:id="@+id/social_button" />
 	<Button android:layout_width="wrap_content"
-		android:layout_height="wrap_content" android:textColor="@color/red_text"
+		android:layout_height="wrap_content" android:textColor="@color/white_text"
 		android:background="@drawable/btn_up" android:layout_weight="1"
 		android:text="@string/exit_string" android:textStyle="bold"
 		android:id="@+id/exit_button" />
@@ -31,10 +31,10 @@
 		<Button android:clickable="false" android:background="@drawable/graphic_up"
 			android:layout_height="wrap_content" android:id="@+id/energy_ind"
 			android:layout_width="wrap_content" android:layout_weight="1"
-			android:textColor="@color/white_text" android:text="Energy:
+			android:textColor="@color/red_text" android:text="Energy:
 0"
 			android:singleLine="false" />
-		<Button android:textColor="@color/white_text"
+		<Button android:textColor="@color/red_text"
 			android:clickable="false" android:background="@drawable/graphic_dwn"
 			android:layout_height="wrap_content" android:id="@+id/cash_ind"
 			android:text="Cash:
@@ -43,7 +43,7 @@ $0.00" android:layout_width="wrap_content"
 		<Button android:clickable="false" android:background="@drawable/graphic_up"
 			android:layout_height="wrap_content" android:id="@+id/rep_ind"
 			android:layout_width="wrap_content" android:layout_weight="1"
-			android:textColor="@color/white_text" android:text="Favor:
+			android:textColor="@color/red_text" android:text="Favor:
 0"
 			android:singleLine="false" />
 	</TableRow>

@@ -10,6 +10,7 @@ import android.app.Dialog;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.Toast;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -22,10 +23,13 @@ import com.facebook.android.FacebookError;
 public class CourageWolfGame extends Activity {
 
 	private String ADMIN_ACCESS_CODE = "trogdor";
-	private double energyRefreshTime = 1.0;
-	private double cashRefreshTime = 7.0;
-	private double cashRefreshAmt = 5.0;
-	private double repMultiplier = 0.2;
+	private double energyRefreshTime = 1.0; //Time it takes for energy to get back to full (days)
+	private double cashRefreshTime = 7.0; //Time it takes for cash to be refilled (days)
+	private double cashRefreshAmt = 5.0; //Lower limit for automatic cash advanced ($)
+	private int cashRefreshRepPenalty = 5; //Rep Penalty for cash becoming too low (rep)
+	private double repMultiplier = 0.2; //Cash reward per rep point ($)
+	private double repDecayTime = 2.0; //Number of unplayed days before rep starts to  decay (days)
+	private double repDecayAmt = 2.5; //Amount rep decays by(rep)
 
 	private boolean is_logged_in;
 	private String user_id;
@@ -35,6 +39,7 @@ public class CourageWolfGame extends Activity {
 	private int energy;
 	private double cash;
 	private int rep;
+	private Date lastCash;
 	private DataBaseHelper dh;
 	private SimpleDateFormat dateFormat;
 
@@ -63,7 +68,7 @@ public class CourageWolfGame extends Activity {
 		energy = 0;
 		cash = 0.0;
 		rep = 0;
-
+		lastCash = null;
 
 		final Button loginButton = (Button) findViewById(R.id.login_button);
 		final Button planButton = (Button) findViewById(R.id.plan_button);
@@ -197,24 +202,38 @@ public class CourageWolfGame extends Activity {
 								user_id = uid;
 								UserData d = dh.getValues(user_id);
 								if(d.containsData){									
+									is_logged_in = true;
+									Date now = new Date();
 									int tmp_energy = d.getEnergy();
 									double tmp_cash = d.getCash();
 									int tmp_rep = d.getRep();
 									Date tmp_lastlog = d.getLastPlayed();
-									is_logged_in = true;
-									double diff = timeDifference(tmp_lastlog,new Date());
-									if (diff > energyRefreshTime){
-										tmp_energy = 30;
-										if (diff > cashRefreshTime){
-											tmp_cash = tmp_cash + (double)tmp_rep*repMultiplier;
-										}
+									lastCash = d.getLastCash();
+									double log_diff = timeDifference(tmp_lastlog,now);
+									double cash_diff = timeDifference(lastCash,now);
+									if (log_diff >= energyRefreshTime){
+										tmp_energy = 30;										
+									}
+									if (log_diff >= repDecayTime){
+										Long val = new Long(Math.round(log_diff * repDecayAmt));
+										tmp_rep = tmp_rep - val.intValue();
+										if (tmp_rep < 0)
+											tmp_rep = 0;
+									}
+									if (cash_diff >= cashRefreshTime){
+										tmp_cash = tmp_cash + (double)tmp_rep*repMultiplier;
+										lastCash = now;
 									}
 									if (tmp_cash <= cashRefreshAmt){
+										tmp_rep = tmp_rep - cashRefreshRepPenalty;
+										if (tmp_rep < 0)
+											tmp_rep = 0;
 										tmp_cash = tmp_cash + (double)tmp_rep*repMultiplier;
-									}
+										lastCash = now;
+									}									
 									String toastmsg="Login Success. Welcome "+uid+"!\nLast Login was on: "+dateFormat.format(tmp_lastlog);
-									if (diff >= 1){
-										toastmsg = toastmsg + "\n"+String.valueOf(diff)+" days ago.";
+									if (log_diff >= 1){
+										toastmsg = toastmsg + "\n"+String.valueOf(log_diff)+" days ago.";
 									}
 									Toast.makeText(CourageWolfGame.this,toastmsg, Toast.LENGTH_LONG).show();
 									updateCounters(tmp_energy, tmp_cash, tmp_rep);
@@ -340,10 +359,89 @@ public class CourageWolfGame extends Activity {
 					}
 					else
 					{
-						int energyIncr = 0, repIncr = 0;
-						double cashIncr = 0.0;
 						//Code to do various things
-						updateCounters(energyIncr,cashIncr,repIncr);
+						final Dialog planDlg = new Dialog(CourageWolfGame.this);
+						planDlg.setContentView(R.layout.plan_dialog);
+						planDlg.setTitle(R.string.plan_string);
+						planDlg.setCancelable(true);
+						
+						Button planDone = (Button)planDlg.findViewById(R.id.plan_done_button);
+						planDone.setOnClickListener(new OnClickListener(){
+
+							public void onClick(View v) {
+								// TODO Auto-generated method stub
+								planDlg.dismiss();
+							}
+							
+						});
+
+						Button planHangout = (Button)planDlg.findViewById(R.id.plan_hangout_button);
+						planHangout.setOnClickListener(new OnClickListener(){
+
+							public void onClick(View v) {
+								// TODO Auto-generated method stub
+								
+								final Dialog hangDlg = new Dialog(CourageWolfGame.this);
+								hangDlg.setContentView(R.layout.plan_hangout_dialog);
+								hangDlg.setTitle(R.string.plan_string);
+								hangDlg.setCancelable(true);
+
+								final RadioButton hgSameHome = (RadioButton)hangDlg.findViewById(R.id.hangout_opt_same_home);
+								final RadioButton hgSameOut = (RadioButton)hangDlg.findViewById(R.id.hangout_opt_same_out);
+								final RadioButton hgMixedHome = (RadioButton)hangDlg.findViewById(R.id.hangout_opt_mixed_home);
+								final RadioButton hgMixedOut = (RadioButton)hangDlg.findViewById(R.id.hangout_opt_mixed_out);
+								final Button hgBtn = (Button)hangDlg.findViewById(R.id.plan_hangout_done_btn);
+
+								hgBtn.setOnClickListener(new OnClickListener(){
+
+									public void onClick(View v) {
+										// TODO Auto-generated method stub
+										boolean optSelected = false;
+										int energyIncr = 0;
+										double cashIncr = 0.0;
+										int repIncr = 0;
+										if(hgSameHome.isChecked()){
+											optSelected = true;
+											energyIncr = -5;
+											cashIncr = 0.0;
+											repIncr = -5;
+										}
+										else if(hgSameOut.isChecked()){
+											optSelected = true;
+											energyIncr = -10;
+											cashIncr = -10.0;
+											repIncr = -10;
+										}
+										else if(hgMixedHome.isChecked()){
+											optSelected = true;
+											energyIncr = -5;
+											cashIncr = 0.0;
+											repIncr = -10;
+										}
+										else if(hgMixedOut.isChecked()){
+											optSelected = true;
+											energyIncr = -10;
+											cashIncr = -10.0;
+											repIncr = -20;
+										}
+										if(optSelected){
+											Toast.makeText(CourageWolfGame.this, "You planned an activity", Toast.LENGTH_SHORT).show();
+											updateCounters(energyIncr,cashIncr,repIncr);
+											hangDlg.dismiss();
+										}
+										else{
+											Toast.makeText(CourageWolfGame.this, "You need to select and Option", Toast.LENGTH_SHORT).show();
+										}
+									}
+
+								});
+
+								hangDlg.show();
+							}
+
+						});
+
+						planDlg.show();
 					}										
 				}
 				else
@@ -368,10 +466,10 @@ public class CourageWolfGame extends Activity {
 		}
 		energyIndex.setText(String.format("Energy:\n%d", energy));
 		cashIndex.setText(String.format("Cash:\n$%.2f", cash));
-		repIndex.setText(String.format("Favor:\n$%d", rep));
+		repIndex.setText(String.format("Favor:\n%d", rep));
 		if(is_logged_in)
 		{
-			if (dh.update(user_id, energy, cash, rep)==-1)
+			if (dh.update(user_id, energy, cash, rep, lastCash)==-1)
 				Toast.makeText(CourageWolfGame.this, "FATAL ERROR: No Update", Toast.LENGTH_LONG).show();
 		}
 	}

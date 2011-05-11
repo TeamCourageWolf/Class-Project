@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical" android:layout_width="fill_parent"
+	android:layout_height="fill_parent" android:paddingLeft="10dip"
+	android:paddingRight="10dip">
+    <Button android:text="Study Alone at Home" android:id="@+id/plan_study_alone" android:layout_height="wrap_content" android:layout_width="match_parent"></Button>
+    <Button android:text="Study With Friends at Your Home" android:id="@+id/plan_study_group_home" android:layout_width="match_parent" android:layout_height="wrap_content"></Button>
+    <Button android:text="Study With Friends at Friends Home" android:id="@+id/plan_study_group_away" android:layout_width="match_parent" android:layout_height="wrap_content"></Button>
+</LinearLayout>

@@ -8,6 +8,7 @@ public class UserData {
 	private double cash;
 	private int rep;
 	private Date lastPlayed;
+	private Date lastCash;
 	public UserData()
 	{
 		containsData = false;
@@ -15,6 +16,7 @@ public class UserData {
 		cash = 0.0;
 		rep = 0;
 		lastPlayed = null;
+		lastCash = null;
 	}
 	public void setEnergy(int energy) {
 		this.energy = energy;
@@ -39,5 +41,11 @@ public class UserData {
 	}
 	public Date getLastPlayed() {
 		return lastPlayed;
+	}
+	public void setLastCash(Date lastCash) {
+		this.lastCash = lastCash;
+	}
+	public Date getLastCash() {
+		return lastCash;
 	}
 }

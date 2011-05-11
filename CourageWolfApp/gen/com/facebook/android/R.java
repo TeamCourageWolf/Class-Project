@@ -33,29 +33,36 @@ public final class R {
         public static final int cash_ind=0x7f060012;
         public static final int energy_ind=0x7f060011;
         public static final int exit_button=0x7f06000f;
-        public static final int hangout_opt_mixed_home=0x7f06001b;
-        public static final int hangout_opt_mixed_out=0x7f06001c;
-        public static final int hangout_opt_same_home=0x7f060019;
-        public static final int hangout_opt_same_out=0x7f06001a;
+        public static final int hangout_opt_mixed_home=0x7f06001a;
+        public static final int hangout_opt_mixed_out=0x7f06001b;
+        public static final int hangout_opt_same_home=0x7f060018;
+        public static final int hangout_opt_same_out=0x7f060019;
         public static final int login_button=0x7f06000b;
         public static final int login_cancel_button=0x7f06000a;
         public static final int login_ok_button=0x7f060009;
         public static final int login_passwd=0x7f060008;
         public static final int login_uname=0x7f060007;
+        public static final int movie_opt_mixed_schoolnight=0x7f060020;
+        public static final int movie_opt_mixed_weekend=0x7f060021;
+        public static final int movie_opt_same_schoolnight=0x7f06001e;
+        public static final int movie_opt_same_weekend=0x7f06001f;
         public static final int new_passwd=0x7f060004;
         public static final int new_uname=0x7f060003;
         public static final int plan_button=0x7f06000c;
-        public static final int plan_done_button=0x7f060017;
         public static final int plan_hangout_button=0x7f060014;
-        public static final int plan_hangout_done_btn=0x7f06001d;
-        public static final int plan_hangout_options=0x7f060018;
+        public static final int plan_hangout_done_btn=0x7f06001c;
+        public static final int plan_hangout_options=0x7f060017;
         public static final int plan_movie_button=0x7f060016;
-        public static final int plan_study_alone=0x7f06001e;
+        public static final int plan_movie_done_btn=0x7f060022;
+        public static final int plan_movie_options=0x7f06001d;
         public static final int plan_study_button=0x7f060015;
-        public static final int plan_study_group_away=0x7f060020;
-        public static final int plan_study_group_home=0x7f06001f;
+        public static final int plan_study_done_btn=0x7f060027;
+        public static final int plan_study_options=0x7f060023;
         public static final int rep_ind=0x7f060013;
         public static final int social_button=0x7f06000e;
+        public static final int study_opt_alone=0x7f060024;
+        public static final int study_opt_group_home=0x7f060025;
+        public static final int study_opt_group_out=0x7f060026;
         public static final int tableRow1=0x7f060010;
     }
     public static final class layout {
@@ -65,7 +72,8 @@ public final class R {
         public static final int main=0x7f030003;
         public static final int plan_dialog=0x7f030004;
         public static final int plan_hangout_dialog=0x7f030005;
-        public static final int plan_study_dialog=0x7f030006;
+        public static final int plan_movie_dialog=0x7f030006;
+        public static final int plan_study_dialog=0x7f030007;
     }
     public static final class string {
         public static final int admin_string=0x7f050003;

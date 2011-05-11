@@ -212,7 +212,7 @@ public class CourageWolfGame extends Activity {
 									double log_diff = timeDifference(tmp_lastlog,now);
 									double cash_diff = timeDifference(lastCash,now);
 									if (log_diff >= energyRefreshTime){
-										tmp_energy = 30;										
+										tmp_energy = 50;										
 									}
 									if (log_diff >= repDecayTime){
 										Long val = new Long(Math.round(log_diff * repDecayAmt));
@@ -305,7 +305,7 @@ public class CourageWolfGame extends Activity {
 									String nUsrName = ((EditText)inDlg.findViewById(R.id.new_uname)).getText().toString().trim();
 									String nPassWd = ((EditText)inDlg.findViewById(R.id.new_passwd)).getText().toString().trim();
 									//Toast.makeText(CourageWolfGame.this, String.format("Scaffold: %s %s",nUsrName,nPassWd),Toast.LENGTH_LONG).show();//Code to add to database
-									long r = dh.insert(nUsrName, nPassWd, 30, 25.0, 100);
+									long r = dh.insert(nUsrName, nPassWd, 50, 25.0, 100);
 									if(r == -1){
 										Toast.makeText(CourageWolfGame.this, String.format("Insert Failed: Username %s may already exist",nUsrName),Toast.LENGTH_LONG).show();
 									}
@@ -322,6 +322,13 @@ public class CourageWolfGame extends Activity {
 									Toast.makeText(CourageWolfGame.this, "Deleting All Entries",Toast.LENGTH_LONG).show();
 									dh.deleteAll();
 									Toast.makeText(CourageWolfGame.this, "Tables are now Empty",Toast.LENGTH_LONG).show();
+									long r = dh.insert("A", "B", 50, 25.0, 100);
+									if(r == -1){
+										Toast.makeText(CourageWolfGame.this, "Insert Failed: This Should not Happen" ,Toast.LENGTH_LONG).show();
+									}
+									else if(r == -2){
+										Toast.makeText(CourageWolfGame.this, "FATAL ERROR: Insert Failed",Toast.LENGTH_LONG).show();
+									}
 								}
 							});
 
@@ -364,15 +371,144 @@ public class CourageWolfGame extends Activity {
 						planDlg.setContentView(R.layout.plan_dialog);
 						planDlg.setTitle(R.string.plan_string);
 						planDlg.setCancelable(true);
-						
-						Button planDone = (Button)planDlg.findViewById(R.id.plan_done_button);
-						planDone.setOnClickListener(new OnClickListener(){
+
+						Button planMovie = (Button)planDlg.findViewById(R.id.plan_movie_button);
+						planMovie.setOnClickListener(new OnClickListener(){
 
 							public void onClick(View v) {
 								// TODO Auto-generated method stub
+								final Dialog movieDlg = new Dialog(CourageWolfGame.this);
+								movieDlg.setContentView(R.layout.plan_movie_dialog);
+								movieDlg.setTitle(R.string.plan_string);
+								movieDlg.setCancelable(false);
+
+								final RadioButton mvSameSchoolN = (RadioButton)movieDlg.findViewById(R.id.movie_opt_same_schoolnight);
+								final RadioButton mvSameWeeknD = (RadioButton)movieDlg.findViewById(R.id.movie_opt_same_weekend);
+								final RadioButton mvMixedSchoolN = (RadioButton)movieDlg.findViewById(R.id.movie_opt_mixed_schoolnight);
+								final RadioButton mvMixedWeeknD = (RadioButton)movieDlg.findViewById(R.id.movie_opt_mixed_weekend);
+								final Button mvBtn = (Button)movieDlg.findViewById(R.id.plan_movie_done_btn);
+
+								mvBtn.setOnClickListener(new OnClickListener(){
+
+									public void onClick(View v) {
+										// TODO Auto-generated method stub
+										boolean optSelected = false;
+										int energyIncr = 0;
+										double cashIncr = 0.0;
+										int repIncr = 0;
+										if(mvSameSchoolN.isChecked()){
+											optSelected = true;
+											energyIncr = -15;
+											cashIncr = -10.0;
+											repIncr = -15;
+										}
+										if(mvSameWeeknD.isChecked()){
+											optSelected = true;
+											energyIncr = -15;
+											cashIncr = -15.0;
+											repIncr = -10;
+										}
+										if(mvMixedSchoolN.isChecked()){
+											optSelected = true;
+											energyIncr = -15;
+											cashIncr = -10.0;
+											repIncr = -30;
+										}
+										if(mvMixedWeeknD.isChecked()){
+											optSelected = true;
+											energyIncr = -15;
+											cashIncr = -15.0;
+											repIncr = -20;
+										}
+										if(optSelected){
+											if (checkNotEnoughEnergy(energyIncr)){
+												Toast.makeText(CourageWolfGame.this, "You Do Not Have Enough Energy for this", Toast.LENGTH_SHORT).show();
+											}
+											else if (checkNotEnoughCash(cashIncr)){
+												Toast.makeText(CourageWolfGame.this, "You Do Not Have Enough Cash for this", Toast.LENGTH_SHORT).show();
+											}
+											else{
+												Toast.makeText(CourageWolfGame.this, "You planned a trip tp the movies", Toast.LENGTH_SHORT).show();
+												updateCounters(energyIncr,cashIncr,repIncr);
+											}
+											movieDlg.dismiss();
+										}
+										else{
+											Toast.makeText(CourageWolfGame.this, "You need to select an Option", Toast.LENGTH_SHORT).show();
+										}
+									}									
+								});
+
+								movieDlg.show();
 								planDlg.dismiss();
 							}
-							
+
+						});
+
+						Button planStudy = (Button)planDlg.findViewById(R.id.plan_study_button);
+						planStudy.setOnClickListener(new OnClickListener(){
+
+							public void onClick(View v) {
+								// TODO Auto-generated method stub
+								final Dialog studyDlg = new Dialog(CourageWolfGame.this);
+								studyDlg.setContentView(R.layout.plan_study_dialog);
+								studyDlg.setTitle(R.string.plan_string);
+								studyDlg.setCancelable(true);
+
+								final RadioButton stAlone =(RadioButton)studyDlg.findViewById(R.id.study_opt_alone);
+								final RadioButton stGpHome =(RadioButton)studyDlg.findViewById(R.id.study_opt_group_home);
+								final RadioButton stGpOut =(RadioButton)studyDlg.findViewById(R.id.study_opt_group_out);
+								final Button stBtn = (Button)studyDlg.findViewById(R.id.plan_study_done_btn);
+
+								stBtn.setOnClickListener(new OnClickListener (){
+
+									public void onClick(View v) {
+										// TODO Auto-generated method stub
+										boolean optSelected = false;
+										int energyIncr = 0;
+										double cashIncr = 0.0;
+										int repIncr = 0;
+										if(stAlone.isChecked()){
+											optSelected = true;
+											energyIncr = -5;
+											cashIncr = 0.0;
+											repIncr = 5;
+										}
+										else if(stGpHome.isChecked()){
+											optSelected = true;
+											energyIncr = -10;
+											cashIncr = 0.0;
+											repIncr = 10;
+										}
+										else if(stGpOut.isChecked()){
+											optSelected = true;
+											energyIncr = -15;
+											cashIncr = -5.0;
+											repIncr = 15;
+										}
+										if(optSelected){
+											if (checkNotEnoughEnergy(energyIncr)){
+												Toast.makeText(CourageWolfGame.this, "You Do Not Have Enough Energy for this", Toast.LENGTH_SHORT).show();
+											}
+											else if (checkNotEnoughCash(cashIncr)){
+												Toast.makeText(CourageWolfGame.this, "You Do Not Have Enough Cash for this", Toast.LENGTH_SHORT).show();
+											}
+											else{
+												Toast.makeText(CourageWolfGame.this, "You planned a study session", Toast.LENGTH_SHORT).show();
+												updateCounters(energyIncr,cashIncr,repIncr);
+											}
+											studyDlg.dismiss();
+										}
+										else{
+											Toast.makeText(CourageWolfGame.this, "You need to select an Option", Toast.LENGTH_SHORT).show();
+										}
+									}
+
+								});
+
+								studyDlg.show();
+								planDlg.dismiss();
+							}							
 						});
 
 						Button planHangout = (Button)planDlg.findViewById(R.id.plan_hangout_button);
@@ -380,7 +516,7 @@ public class CourageWolfGame extends Activity {
 
 							public void onClick(View v) {
 								// TODO Auto-generated method stub
-								
+
 								final Dialog hangDlg = new Dialog(CourageWolfGame.this);
 								hangDlg.setContentView(R.layout.plan_hangout_dialog);
 								hangDlg.setTitle(R.string.plan_string);
@@ -409,7 +545,7 @@ public class CourageWolfGame extends Activity {
 										else if(hgSameOut.isChecked()){
 											optSelected = true;
 											energyIncr = -10;
-											cashIncr = -10.0;
+											cashIncr = -5.0;
 											repIncr = -10;
 										}
 										else if(hgMixedHome.isChecked()){
@@ -421,22 +557,31 @@ public class CourageWolfGame extends Activity {
 										else if(hgMixedOut.isChecked()){
 											optSelected = true;
 											energyIncr = -10;
-											cashIncr = -10.0;
+											cashIncr = -5.0;
 											repIncr = -20;
 										}
 										if(optSelected){
-											Toast.makeText(CourageWolfGame.this, "You planned an activity", Toast.LENGTH_SHORT).show();
-											updateCounters(energyIncr,cashIncr,repIncr);
+											if (checkNotEnoughEnergy(energyIncr)){
+												Toast.makeText(CourageWolfGame.this, "You Do Not Have Enough Energy for this", Toast.LENGTH_SHORT).show();
+											}
+											else if (checkNotEnoughCash(cashIncr)){
+												Toast.makeText(CourageWolfGame.this, "You Do Not Have Enough Cash for this", Toast.LENGTH_SHORT).show();
+											}
+											else{
+												Toast.makeText(CourageWolfGame.this, "You planned to Hangout with your Friends", Toast.LENGTH_SHORT).show();
+												updateCounters(energyIncr,cashIncr,repIncr);
+											}
 											hangDlg.dismiss();
 										}
 										else{
-											Toast.makeText(CourageWolfGame.this, "You need to select and Option", Toast.LENGTH_SHORT).show();
+											Toast.makeText(CourageWolfGame.this, "You need to select an Option", Toast.LENGTH_SHORT).show();
 										}
 									}
 
 								});
 
 								hangDlg.show();
+								planDlg.dismiss();
 							}
 
 						});
@@ -451,6 +596,16 @@ public class CourageWolfGame extends Activity {
 			}
 
 		});
+	}
+
+	private boolean checkNotEnoughEnergy(int energyIncr){
+		int nEnergy = energy + energyIncr;
+		return (nEnergy < 0);
+	}
+
+	private boolean checkNotEnoughCash(double cashIncr){
+		double nCash = cash + cashIncr;
+		return (nCash < 0.0);
 	}
 
 	private void updateCounters(int energy_increment, double cash_increment, int rep_increment) {

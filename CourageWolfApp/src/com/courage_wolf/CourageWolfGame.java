@@ -110,7 +110,7 @@ public class CourageWolfGame extends Activity {
 						Bundle params = new Bundle();
 						params.putString("name","Courage Wolf App");
 						params.putString("caption", String.format("Can you do better than Me?.\nI have %d rep and $ %.2f cash. Sweet!",rep,cash));
-						params.putString("message", "Try out this Awesome new App. P.S. Vamsi HATES coding on the Android SDK with every fiber of his being !");
+						params.putString("message", "Courage Wolf commands you to try out this Awesome new App!");
 						params.putString("link", "http://johnhcstaton.com/teamcouragewolf/");
 						params.putString("picture", "http://omega.uta.edu/~vxg3135/CWolf/master.png");
 						fb.dialog(CourageWolfGame.this, "feed", params, new DialogListener(){
@@ -197,67 +197,69 @@ public class CourageWolfGame extends Activity {
 						public void onClick(View v) {
 							String uid = uname.getText().toString().trim();
 							String pwd = passwd.getText().toString().trim();
-							short auth = dh.checkPassWord(uid, pwd);
-							if (auth == 1) {								
-								user_id = uid;
-								UserData d = dh.getValues(user_id);
-								if(d.containsData){									
-									is_logged_in = true;
-									Date now = new Date();
-									int tmp_energy = d.getEnergy();
-									double tmp_cash = d.getCash();
-									int tmp_rep = d.getRep();
-									Date tmp_lastlog = d.getLastPlayed();
-									lastCash = d.getLastCash();
-									double log_diff = timeDifference(tmp_lastlog,now);
-									double cash_diff = timeDifference(lastCash,now);
-									if (log_diff >= energyRefreshTime){
-										tmp_energy = 50;										
+							if (isNotEmpty(uid,pwd)){
+								short auth = dh.checkPassWord(uid, pwd);
+								if (auth == 1) {								
+									user_id = uid;
+									UserData d = dh.getValues(user_id);
+									if(d.containsData){									
+										is_logged_in = true;
+										Date now = new Date();
+										int tmp_energy = d.getEnergy();
+										double tmp_cash = d.getCash();
+										int tmp_rep = d.getRep();
+										Date tmp_lastlog = d.getLastPlayed();
+										lastCash = d.getLastCash();
+										double log_diff = timeDifference(tmp_lastlog,now);
+										double cash_diff = timeDifference(lastCash,now);
+										if (log_diff >= energyRefreshTime){
+											tmp_energy = 50;										
+										}
+										if (log_diff >= repDecayTime){
+											Long val = new Long(Math.round(log_diff * repDecayAmt));
+											tmp_rep = tmp_rep - val.intValue();
+											if (tmp_rep < 0)
+												tmp_rep = 0;
+										}
+										if (cash_diff >= cashRefreshTime){
+											tmp_cash = tmp_cash + (double)tmp_rep*repMultiplier;
+											lastCash = now;
+										}
+										if (tmp_cash <= cashRefreshAmt){
+											tmp_rep = tmp_rep - cashRefreshRepPenalty;
+											if (tmp_rep < 0)
+												tmp_rep = 0;
+											tmp_cash = tmp_cash + (double)tmp_rep*repMultiplier;
+											lastCash = now;
+										}									
+										String toastmsg="Login Success. Welcome "+uid+"!\nLast Login was on: "+dateFormat.format(tmp_lastlog);
+										if (log_diff >= 1){
+											toastmsg = toastmsg + "\n"+String.valueOf(log_diff)+" days ago.";
+										}
+										Toast.makeText(CourageWolfGame.this,toastmsg, Toast.LENGTH_LONG).show();
+										updateCounters(tmp_energy, tmp_cash, tmp_rep);
 									}
-									if (log_diff >= repDecayTime){
-										Long val = new Long(Math.round(log_diff * repDecayAmt));
-										tmp_rep = tmp_rep - val.intValue();
-										if (tmp_rep < 0)
-											tmp_rep = 0;
+									else{
+										is_logged_in = false;
+										Toast.makeText(CourageWolfGame.this,"FATAL ERROR: Obtaining Values", Toast.LENGTH_LONG).show();
+										updateCounters(0, 0.0, 0);
 									}
-									if (cash_diff >= cashRefreshTime){
-										tmp_cash = tmp_cash + (double)tmp_rep*repMultiplier;
-										lastCash = now;
-									}
-									if (tmp_cash <= cashRefreshAmt){
-										tmp_rep = tmp_rep - cashRefreshRepPenalty;
-										if (tmp_rep < 0)
-											tmp_rep = 0;
-										tmp_cash = tmp_cash + (double)tmp_rep*repMultiplier;
-										lastCash = now;
-									}									
-									String toastmsg="Login Success. Welcome "+uid+"!\nLast Login was on: "+dateFormat.format(tmp_lastlog);
-									if (log_diff >= 1){
-										toastmsg = toastmsg + "\n"+String.valueOf(log_diff)+" days ago.";
-									}
-									Toast.makeText(CourageWolfGame.this,toastmsg, Toast.LENGTH_LONG).show();
-									updateCounters(tmp_energy, tmp_cash, tmp_rep);
+								} 
+								else if (auth == 0){
+									is_logged_in = false;
+									Toast.makeText(CourageWolfGame.this,"Login Failed: Incorrect Password", Toast.LENGTH_LONG).show();
+									updateCounters(0, 0.0, 0);
+								}
+								else if (auth == -1){
+									is_logged_in = false;
+									Toast.makeText(CourageWolfGame.this,"Login Failed: User Not Found", Toast.LENGTH_LONG).show();
+									updateCounters(0, 0.0, 0);
 								}
 								else{
 									is_logged_in = false;
-									Toast.makeText(CourageWolfGame.this,"FATAL ERROR: Obtaining Values", Toast.LENGTH_LONG).show();
+									Toast.makeText(CourageWolfGame.this,"FATAL ERROR: Login Process", Toast.LENGTH_LONG).show();
 									updateCounters(0, 0.0, 0);
 								}
-							} 
-							else if (auth == 0){
-								is_logged_in = false;
-								Toast.makeText(CourageWolfGame.this,"Login Failed: Incorrect Password", Toast.LENGTH_LONG).show();
-								updateCounters(0, 0.0, 0);
-							}
-							else if (auth == -1){
-								is_logged_in = false;
-								Toast.makeText(CourageWolfGame.this,"Login Failed: User Not Found", Toast.LENGTH_LONG).show();
-								updateCounters(0, 0.0, 0);
-							}
-							else{
-								is_logged_in = false;
-								Toast.makeText(CourageWolfGame.this,"FATAL ERROR: Login Process", Toast.LENGTH_LONG).show();
-								updateCounters(0, 0.0, 0);
 							}
 							dlg.dismiss();
 						}
@@ -305,12 +307,14 @@ public class CourageWolfGame extends Activity {
 									String nUsrName = ((EditText)inDlg.findViewById(R.id.new_uname)).getText().toString().trim();
 									String nPassWd = ((EditText)inDlg.findViewById(R.id.new_passwd)).getText().toString().trim();
 									//Toast.makeText(CourageWolfGame.this, String.format("Scaffold: %s %s",nUsrName,nPassWd),Toast.LENGTH_LONG).show();//Code to add to database
-									long r = dh.insert(nUsrName, nPassWd, 50, 25.0, 100);
-									if(r == -1){
-										Toast.makeText(CourageWolfGame.this, String.format("Insert Failed: Username %s may already exist",nUsrName),Toast.LENGTH_LONG).show();
-									}
-									else if(r == -2){
-										Toast.makeText(CourageWolfGame.this, "FATAL ERROR: Insert Failed",Toast.LENGTH_LONG).show();
+									if (isNotEmpty(nUsrName,nPassWd)){
+										long r = dh.insert(nUsrName, nPassWd, 50, 25.0, 100);
+										if(r == -1){
+											Toast.makeText(CourageWolfGame.this, String.format("Insert Failed: Username %s may already exist",nUsrName),Toast.LENGTH_LONG).show();
+										}
+										else if(r == -2){
+											Toast.makeText(CourageWolfGame.this, "FATAL ERROR: Insert Failed",Toast.LENGTH_LONG).show();
+										}
 									}
 								}								
 							});
@@ -596,6 +600,18 @@ public class CourageWolfGame extends Activity {
 			}
 
 		});
+	}
+
+	private boolean isNotEmpty(String usr, String pwd){
+		if (usr.equalsIgnoreCase("")){
+			Toast.makeText(CourageWolfGame.this, "User-ID Cannot be Empty", Toast.LENGTH_SHORT).show();
+			return false;
+		}
+		if (pwd.equalsIgnoreCase("")){
+			Toast.makeText(CourageWolfGame.this, "Password Cannot be Empty", Toast.LENGTH_SHORT).show();
+			return false;
+		}
+		return true;
 	}
 
 	private boolean checkNotEnoughEnergy(int energyIncr){

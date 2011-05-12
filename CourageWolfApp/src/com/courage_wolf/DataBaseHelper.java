@@ -21,7 +21,7 @@ public class DataBaseHelper{
 
 	private Context context;
 	private SQLiteDatabase db;
-	
+
 	private static class OpenHelper extends SQLiteOpenHelper{
 		OpenHelper(Context context){
 			super(context, DATABASE_NAME, null, DATABASE_VERSION);			

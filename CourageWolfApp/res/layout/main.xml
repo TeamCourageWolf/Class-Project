@@ -34,12 +34,12 @@
 			android:textColor="@color/red_text" android:text="Energy:
 0"
 			android:singleLine="false" />
-		<Button android:textColor="@color/red_text"
-			android:clickable="false" android:background="@drawable/graphic_dwn"
-			android:layout_height="wrap_content" android:id="@+id/cash_ind"
-			android:text="Cash:
-$0.00" android:layout_width="wrap_content"
-			android:layout_weight="1" android:singleLine="false" />
+		<Button android:textColor="@color/red_text" android:clickable="false"
+			android:background="@drawable/graphic_dwn" android:layout_height="wrap_content"
+			android:id="@+id/cash_ind" android:text="Cash:
+$0.00"
+			android:layout_width="wrap_content" android:layout_weight="1"
+			android:singleLine="false" />
 		<Button android:clickable="false" android:background="@drawable/graphic_up"
 			android:layout_height="wrap_content" android:id="@+id/rep_ind"
 			android:layout_width="wrap_content" android:layout_weight="1"

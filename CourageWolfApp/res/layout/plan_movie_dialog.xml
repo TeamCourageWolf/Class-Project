@@ -2,12 +2,26 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:orientation="vertical" android:layout_width="fill_parent"
 	android:layout_height="fill_parent" android:paddingLeft="10dip"
-	android:paddingRight="10dip">    
-    <RadioGroup android:id="@+id/plan_movie_options" android:layout_width="wrap_content" android:layout_height="wrap_content">
-        <RadioButton android:layout_height="wrap_content" android:id="@+id/movie_opt_same_schoolnight" android:text="Go to Movies with your Friends (Same Gender) during a school night" android:layout_width="wrap_content"></RadioButton>
-        <RadioButton android:layout_height="wrap_content" android:id="@+id/movie_opt_same_weekend" android:text="Go to Movies with your Friends (Same Gender) during the weekend" android:layout_width="wrap_content" android:checked="true"></RadioButton>
-        <RadioButton android:layout_height="wrap_content" android:id="@+id/movie_opt_mixed_schoolnight" android:text="Go to Movies with your Friends (Mixed Gender) during a school night" android:layout_width="wrap_content"></RadioButton>
-        <RadioButton android:layout_height="wrap_content" android:id="@+id/movie_opt_mixed_weekend" android:text="Go to Movies with your Friends (Mixed Gender) during the weekend" android:layout_width="wrap_content"></RadioButton>
-    </RadioGroup>
-    <Button android:text="Done Planning" android:id="@+id/plan_movie_done_btn" android:layout_width="match_parent" android:layout_height="wrap_content"></Button>
+	android:paddingRight="10dip">
+	<RadioGroup android:id="@+id/plan_movie_options"
+		android:layout_width="wrap_content" android:layout_height="wrap_content">
+		<RadioButton android:layout_height="wrap_content"
+			android:id="@+id/movie_opt_same_schoolnight"
+			android:text="Go to Movies with your Friends (Same Gender) during a school night"
+			android:layout_width="wrap_content" />
+		<RadioButton android:layout_height="wrap_content"
+			android:id="@+id/movie_opt_same_weekend"
+			android:text="Go to Movies with your Friends (Same Gender) during the weekend"
+			android:layout_width="wrap_content" android:checked="true" />
+		<RadioButton android:layout_height="wrap_content"
+			android:id="@+id/movie_opt_mixed_schoolnight"
+			android:text="Go to Movies with your Friends (Mixed Gender) during a school night"
+			android:layout_width="wrap_content" />
+		<RadioButton android:layout_height="wrap_content"
+			android:id="@+id/movie_opt_mixed_weekend"
+			android:text="Go to Movies with your Friends (Mixed Gender) during the weekend"
+			android:layout_width="wrap_content" />
+	</RadioGroup>
+	<Button android:text="Done Planning" android:id="@+id/plan_movie_done_btn"
+		android:layout_width="match_parent" android:layout_height="wrap_content" />
 </LinearLayout>
